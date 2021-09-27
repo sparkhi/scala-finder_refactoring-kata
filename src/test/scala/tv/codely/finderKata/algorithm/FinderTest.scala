@@ -1,109 +1,88 @@
 package tv.codely.finderKata.algorithm
 
-import java.util.{ArrayList, Date}
-
 import com.github.nscala_time.time.Imports._
 import org.scalatest._
 import org.scalatest.Matchers._
 
 final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
-  var sue: Thing = new Thing()
-  var greg: Thing = new Thing()
-  var sarah: Thing = new Thing()
-  var mike: Thing = new Thing()
-
-  override def beforeEach(): Unit = {
-    sue.name = "Sue"
-    sue.birthDate = DateTime.parse("1950-01-01")
-
-    greg.name = "Greg"
-    greg.birthDate = DateTime.parse("1952-05-01")
-    sarah.name = "Sarah"
-    sarah.birthDate = DateTime.parse("1982-01-01")
-    mike.name = "Mike"
-    mike.birthDate = DateTime.parse("1979-01-01")
-  }
-
   "Finder" should {
     "Return empty results when given empty list" in {
-      val list = new ArrayList[Thing]()
+      val finder = new Finder(List.empty)
 
-      val finder = new Finder(list)
+      val result = finder.Find(FinderByAgeType.Closest)
 
-      val result = finder.Find(FT.One)
-
-      result.P1 shouldBe null
-      result.P2 shouldBe null
+      result.Young shouldBe null
+      result.Old shouldBe null
     }
 
     "Return empty results when given one person" in {
-      val list = new ArrayList[Thing]()
-      list.add(sue)
+      val sue: Person = new Person("Sue", DateTime.parse("1950-01-01"))
+      val list = List(sue)
 
       val finder = new Finder(list)
 
-      val result = finder.Find(FT.One)
+      val result = finder.Find(FinderByAgeType.Closest)
 
-      result.P1 shouldBe null
-      result.P2 shouldBe null
+      result.Young shouldBe null
+      result.Old shouldBe null
     }
 
     "Return closest two for two people" in {
-      val list = new ArrayList[Thing]()
-      list.add(sue)
-      list.add(greg)
+      val sue: Person = new Person("Sue", DateTime.parse("1950-01-01"))
+      val greg: Person = new Person("Greg", DateTime.parse("1952-05-01"))
+      val list = List(sue, greg)
 
       val finder = new Finder(list)
 
-      val result = finder.Find(FT.One)
+      val result = finder.Find(FinderByAgeType.Closest)
 
-      result.P1 shouldBe sue
-      result.P2 shouldBe greg
+      result.Young shouldBe sue
+      result.Old shouldBe greg
     }
 
     "Return furthest two for two people" in {
-      val list = new ArrayList[Thing]()
-      list.add(mike)
-      list.add(greg)
+      val greg: Person = new Person("Greg", DateTime.parse("1952-05-01"))
+      val mike: Person = new Person("Mike", DateTime.parse("1979-01-01"))
+      val list = List(mike, greg)
 
       val finder = new Finder(list)
 
-      val result = finder.Find(FT.Two)
+      val result = finder.Find(FinderByAgeType.Furthest)
 
-      result.P1 shouldBe greg
-      result.P2 shouldBe mike
+      result.Young shouldBe greg
+      result.Old shouldBe mike
     }
 
     "Return furthest two for four people" in {
-      val list = new ArrayList[Thing]()
-      list.add(sue)
-      list.add(sarah)
-      list.add(mike)
-      list.add(greg)
+      val sue: Person = new Person("Sue", DateTime.parse("1950-01-01"))
+      val greg: Person = new Person("Greg", DateTime.parse("1952-05-01"))
+      val sarah: Person = new Person("Sarah", DateTime.parse("1982-01-01"))
+      val mike: Person = new Person("Mike", DateTime.parse("1979-01-01"))
+      val list = List(sue, sarah, mike, greg)
 
       val finder = new Finder(list)
 
-      val result = finder.Find(FT.Two)
+      val result = finder.Find(FinderByAgeType.Furthest)
 
-      result.P1 shouldBe sue
-      result.P2 shouldBe sarah
+      result.Young shouldBe sue
+      result.Old shouldBe sarah
     }
 
     "Return closest two for four people" in {
-      val list = new ArrayList[Thing]()
-      list.add(sue)
-      list.add(sarah)
-      list.add(mike)
-      list.add(greg)
+      val sue: Person = new Person("Sue", DateTime.parse("1950-01-01"))
+      val greg: Person = new Person("Greg", DateTime.parse("1952-05-01"))
+      val sarah: Person = new Person("Sarah", DateTime.parse("1982-01-01"))
+      val mike: Person = new Person("Mike", DateTime.parse("1979-01-01"))
+      val list = List(sue, sarah, mike, greg)
 
       val finder = new Finder(list)
 
-      val result = finder.Find(FT.One)
+      val result = finder.Find(FinderByAgeType.Closest)
 
 
-      result.P1 shouldBe sue
-      result.P2 shouldBe greg
+      result.Young shouldBe sue
+      result.Old shouldBe greg
     }
   }
 }

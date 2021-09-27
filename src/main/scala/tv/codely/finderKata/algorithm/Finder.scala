@@ -1,43 +1,44 @@
 package tv.codely.finderKata.algorithm
 
-import java.util
 import java.util.ArrayList
 
 import scala.collection.JavaConverters._
 
-import tv.codely.finderKata.algorithm.FT.FT
+import tv.codely.finderKata.algorithm.FinderByAgeType.FindByAge
 
-class Finder(private val _p: util.List[Thing]) {
+class Finder(private val personList: List[Person]) {
 
-  def Find(ft: FT): F = {
-    val tr = new ArrayList[F]()
+  def Find(findByAgeType: FindByAge): PersonPair = {
 
-    for (i <- 0 until _p.size - 1; j <- i + 1 until _p.size) {
-      val r: F = new F()
+    val sortedList = personList.sortWith(_.birthDate.getMillis < _.birthDate.getMillis)
+    val personPairList = new ArrayList[PersonPair]()
 
-      if (_p.get(i).birthDate.getMillis < _p.get(j).birthDate.getMillis) {
-        r.P1 = _p.get(i)
-        r.P2 = _p.get(j)
+    for (i <- 0 until sortedList.size - 1; j <- i + 1 until sortedList.size) {
+      val r: PersonPair = new PersonPair()
+
+      if (sortedList(i).birthDate.getMillis < sortedList(j).birthDate.getMillis) {
+        r.Young = sortedList(i)
+        r.Old = sortedList(j)
       } else {
-        r.P1 = _p.get(j)
-        r.P2 = _p.get(i)
+        r.Young = sortedList(j)
+        r.Old = sortedList(i)
       }
 
-      r.D = r.P2.birthDate.getMillis - r.P1.birthDate.getMillis
-      tr.add(r)
+      r.AgeDifference = r.Old.birthDate.getMillis - r.Young.birthDate.getMillis
+      personPairList.add(r)
     }
 
-    if (tr.size < 1) {
-      return new F()
+    if (personPairList.size < 1) {
+      return new PersonPair()
     }
 
-    var answer: F = tr.get(0)
+    var answer: PersonPair = personPairList.get(0)
 
-    for (result: F <- tr.asScala) ft match {
-      case FT.One => if (result.D < answer.D) {
+    for (result: PersonPair <- personPairList.asScala) findByAgeType match {
+      case FinderByAgeType.Closest => if (result.AgeDifference < answer.AgeDifference) {
         answer = result
       }
-      case FT.Two => if (result.D > answer.D) {
+      case FinderByAgeType.Furthest => if (result.AgeDifference > answer.AgeDifference) {
         answer = result
       }
     }
