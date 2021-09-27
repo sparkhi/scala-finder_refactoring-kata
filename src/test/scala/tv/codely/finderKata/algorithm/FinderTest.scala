@@ -12,8 +12,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
       val result = finder.Find(FinderByAgeType.Closest)
 
-      result.Young shouldBe null
       result.Old shouldBe null
+      result.Young shouldBe null
     }
 
     "Return empty results when given one person" in {
@@ -24,8 +24,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
       val result = finder.Find(FinderByAgeType.Closest)
 
-      result.Young shouldBe null
       result.Old shouldBe null
+      result.Young shouldBe null
     }
 
     "Return closest two for two people" in {
@@ -37,8 +37,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
       val result = finder.Find(FinderByAgeType.Closest)
 
-      result.Young shouldBe sue
-      result.Old shouldBe greg
+      result.Old shouldBe sue
+      result.Young shouldBe greg
     }
 
     "Return furthest two for two people" in {
@@ -50,8 +50,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
       val result = finder.Find(FinderByAgeType.Furthest)
 
-      result.Young shouldBe greg
-      result.Old shouldBe mike
+      result.Old shouldBe greg
+      result.Young shouldBe mike
     }
 
     "Return furthest two for four people" in {
@@ -65,8 +65,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
 
       val result = finder.Find(FinderByAgeType.Furthest)
 
-      result.Young shouldBe sue
-      result.Old shouldBe sarah
+      result.Old shouldBe sue
+      result.Young shouldBe sarah
     }
 
     "Return closest two for four people" in {
@@ -81,8 +81,8 @@ final class FinderTest extends WordSpec with BeforeAndAfterEach {
       val result = finder.Find(FinderByAgeType.Closest)
 
 
-      result.Young shouldBe sue
-      result.Old shouldBe greg
+      result.Old shouldBe sue
+      result.Young shouldBe greg
     }
   }
 }
