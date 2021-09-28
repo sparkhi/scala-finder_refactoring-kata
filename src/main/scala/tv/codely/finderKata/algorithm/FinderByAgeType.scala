@@ -1,8 +1,5 @@
 package tv.codely.finderKata.algorithm
 
-object FinderByAgeType extends Enumeration {
-  type FindByAge = Value
-
-  val Closest = Value(1)
-  val Furthest = Value(2)
-}
+sealed trait FinderByAgeType {def name: String}
+case object CLOSEST extends FinderByAgeType {val name = "CLOSEST"}
+case object FURTHEST extends FinderByAgeType {val name = "FURTHEST"}
