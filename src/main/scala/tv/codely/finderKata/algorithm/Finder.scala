@@ -11,9 +11,7 @@ class Finder(private val personList: List[Person]) {
         findByAgeType match {
           case FURTHEST => new PersonPair(Some(sortedList.head), Some(sortedList.last))
           case CLOSEST => {
-            val oldest = sortedList.head;
-            val secondOldest = sortedList.tail.head;
-            val currentLeastDifferencePair = new PersonPair(Some(oldest), Some(secondOldest))
+            val currentLeastDifferencePair = new PersonPair(Some(sortedList.head), Some(sortedList.tail.head))
             findClosestPair(currentLeastDifferencePair, sortedList.tail)
           }
         }
